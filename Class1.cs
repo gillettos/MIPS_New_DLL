@@ -9,7 +9,7 @@ namespace MyLibrary
         public PlcCommunicator()
         {
             adsClient = new AdsClient();
-            adsClient.Connect("169.254.250.195", 851); // Replace with your PLC's IP address and port
+            adsClient.Connect("5.143.125.242.1.1", 851); // Replace with your PLC's NET address and port
         }
 
         public void ToggleBoolean(string variableName)
@@ -21,6 +21,7 @@ namespace MyLibrary
         }
 
         ~PlcCommunicator()
+
         {
             adsClient.Dispose();
         }
