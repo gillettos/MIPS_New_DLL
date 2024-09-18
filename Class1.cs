@@ -1,22 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TwinCAT.Ads;
 
-namespace MIPS_New_DLL
-{
-    public class Class1
-    {
-    }
-}
 namespace MyLibrary
 {
-    public class MyClass
+    public class PlcCommunicator
     {
-        public string SayHello(string name)
+        private AdsClient adsClient;
+
+        public PlcCommunicator()
         {
-            return $"Hello, {name}!";
+            adsClient = new AdsClient();
+            adsClient.Connect("169.254.250.195", 851); // Replace with your PLC's IP address and port
+        }
+
+        public void ToggleBoolean(string variableName)
+        {
+            int variableHandle = (int)adsClient.CreateVariableHandle(variableName);
+            bool currentValue = adsClient.ReadAny<bool>((uint)variableHandle);
+            adsClient.WriteAny((uint)variableHandle, !currentValue);
+            adsClient.DeleteVariableHandle((uint)variableHandle);
+        }
+
+        ~PlcCommunicator()
+        {
+            adsClient.Dispose();
         }
     }
 }
