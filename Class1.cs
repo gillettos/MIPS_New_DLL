@@ -10,3 +10,13 @@ namespace MIPS_New_DLL
     {
     }
 }
+namespace MyLibrary
+{
+    public class MyClass
+    {
+        public string SayHello(string name)
+        {
+            return $"Hello, {name}!";
+        }
+    }
+}
