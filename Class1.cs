@@ -28,6 +28,25 @@ namespace MyLibrary
             return value;
         }
 
+        //mc_istop (Stop all Movement but leave enabled)
+        public long Mc_istop(ushort Axis, double new_pos)
+        {
+            string axisPosition = $"prgMotion_1.fAx{Axis}_GotoPosition";
+            string axisMove = $"prgMotion_1.bAx{Axis}_ExMovRel";
+
+            uint axisPositionHandle = adsClient.CreateVariableHandle(axisPosition);
+            uint axisMoveHandle = adsClient.CreateVariableHandle(axisMove);
+
+            adsClient.WriteAny(axisPositionHandle, new_pos);
+            adsClient.WriteAny(axisMoveHandle, true);
+            adsClient.WriteAny(axisMoveHandle, false);
+
+            adsClient.DeleteVariableHandle(axisPositionHandle);
+            adsClient.DeleteVariableHandle(axisMoveHandle);
+
+            return 0;
+        }
+
 
 
 
