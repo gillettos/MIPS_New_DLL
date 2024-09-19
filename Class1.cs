@@ -48,11 +48,30 @@ namespace MyLibrary
         }
 
 
+        public long Mc_imov(ushort Axis, double new_pos)
+        {
 
+            using (AdsClient client = new AdsClient())
+            {
+                string axisPosition = $"prgMotion_1.fAx{Axis}_GotoPosition";
+                string axisMove = $"prgMotion_1.bAx{Axis}_ExMovRel";
 
+                uint axisPositionHandle = adsClient.CreateVariableHandle(axisPosition);
+                uint axisMoveHandle = adsClient.CreateVariableHandle(axisMove);
 
-        // mc_motors_on (Enable all Axis)
-        public int mc_motors_on()
+                adsClient.WriteAny(axisPositionHandle, new_pos);
+                adsClient.WriteAny(axisMoveHandle, true);
+                adsClient.WriteAny(axisMoveHandle, false);
+
+                adsClient.DeleteVariableHandle(axisPositionHandle);
+                adsClient.DeleteVariableHandle(axisMoveHandle);
+
+                return 0;
+            }
+        }
+
+            // mc_motors_on (Enable all Axis)
+            public int mc_motors_on()
         {
 
             AmsNetId remoteAmsNetId = new AmsNetId("5.143.125.242.1.1"); //Dev Box
